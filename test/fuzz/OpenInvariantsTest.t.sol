@@ -33,7 +33,7 @@ pragma solidity ^0.8.18;
 //         uint256 wbtcValue = engine.getUSDValue(wbtc, totalWbtcDeposited);
 //         console.log("wethValue", wethValue);
 //         console.log("wbtcValue", wbtcValue);
-//         console.log("totalSupply", totalSupply);       
+//         console.log("totalSupply", totalSupply);
 //         assert(wethValue + wbtcValue >= totalSupply);
 //     }
 // }

@@ -18,7 +18,7 @@ contract Handler is Test {
     uint256 MAX_DEPOSIT_SIZE = type(uint96).max;
     MockV3Aggregator public ethUsdPriceFeed;
 
-    constructor (DSCEngine _dsce, DecentralizedStableCoin _dsc) {
+    constructor(DSCEngine _dsce, DecentralizedStableCoin _dsc) {
         dsce = _dsce;
         dsc = _dsc;
         address[] memory collaterals = dsce.getCollateralTokens();
@@ -33,24 +33,24 @@ contract Handler is Test {
         }
         address sender = usersWithCollateralDeposited[addressSeed % usersWithCollateralDeposited.length];
         (uint256 totalDscMinted, uint256 collateralValueInUsd) = dsce.getAccountInformation(sender);
-        
+
         // Calculate max DSC that can be safely minted (50% of collateral value)
         uint256 maxDscToMint = (collateralValueInUsd / 2);
-        
+
         // If user already has DSC minted, subtract it from max allowed
         if (maxDscToMint <= totalDscMinted) {
             return; // Cannot mint any more DSC
         }
-        
+
         maxDscToMint = maxDscToMint - totalDscMinted;
-        
+
         // Bound the amount to prevent reverts
         amount = bound(amount, 1, maxDscToMint);
-        
+
         if (amount == 0) {
             return;
         }
-        
+
         // Use DSCEngine's mintDsc function (not DSC contract directly)
         vm.startPrank(sender);
         dsce.mintDsc(amount);
